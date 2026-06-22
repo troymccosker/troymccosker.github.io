@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troy — Sound Engineer & Drummer</title>
+  <meta name="description" content="Freelance sound engineer and drummer specialising in live FOH, studio recording, and technical infrastructure." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #f97316;
+      --accent-dim: rgba(249, 115, 22, 0.12);
+      --accent-border: rgba(249, 115, 22, 0.3);
+    }
+
+    body { font-family: 'Inter', system-ui, sans-serif; }
+
+    /* Subtle grid overlay */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* Ambient glow blobs */
+    .glow-blob {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+
+    /* Card component */
+    .card {
+      background: rgba(24,24,27,0.85);
+      border: 1px solid rgba(39,39,42,0.9);
+      border-radius: 0.75rem;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.25s ease;
+    }
+    .card:hover { border-color: var(--accent-border); }
+
+    /* Skill tag component */
+    .skill-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      background: rgba(39,39,42,0.7);
+      border: 1px solid rgba(63,63,70,0.8);
+      color: #a1a1aa;
+      padding: 0.3rem 0.65rem;
+      border-radius: 0.35rem;
+      display: inline-block;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+    .skill-tag:hover {
+      border-color: var(--accent-border);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--accent);
+      color: #09090b;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: #ea580c;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(249,115,22,0.35);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: transparent;
+      color: #d4d4d8;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-radius: 0.5rem;
+      border: 1px solid #3f3f46;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-ghost:hover {
+      border-color: #71717a;
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    /* Social buttons */
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      border: 1px solid;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .social-btn:hover { transform: translateY(-2px); }
+
+    .social-fb {
+      color: #74b3ff;
+      border-color: rgba(24,119,242,0.35);
+      background: rgba(24,119,242,0.07);
+    }
+    .social-fb:hover {
+      background: rgba(24,119,242,0.15);
+      border-color: rgba(24,119,242,0.6);
+      box-shadow: 0 6px 20px rgba(24,119,242,0.2);
+    }
+
+    .social-ig {
+      color: #f472b6;
+      border-color: rgba(225,48,108,0.35);
+      background: rgba(225,48,108,0.07);
+    }
+    .social-ig:hover {
+      background: rgba(225,48,108,0.15);
+      border-color: rgba(225,48,108,0.6);
+      box-shadow: 0 6px 20px rgba(225,48,108,0.2);
+    }
+
+    /* Profile ring animation */
+    @keyframes ring-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.25), 0 0 35px rgba(249,115,22,0.15); }
+      50%       { box-shadow: 0 0 0 6px rgba(249,115,22,0.05), 0 0 50px rgba(249,115,22,0.2); }
+    }
+    .profile-ring { animation: ring-pulse 4s ease-in-out infinite; }
+
+    /* Scroll chevron bounce */
+    @keyframes chevron-bounce {
+      0%, 100% { transform: translateY(0) translateX(-50%); opacity: 0.4; }
+      50%       { transform: translateY(6px) translateX(-50%); opacity: 0.7; }
+    }
+    .scroll-hint { animation: chevron-bounce 2s ease-in-out infinite; }
+
+    /* Focus areas divider line */
+    .focus-card { position: relative; }
+    .focus-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+      border-radius: 9999px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .focus-card:hover::before { opacity: 1; }
+  </style>
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 antialiased overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════ HERO ════════════════════════════════════════ -->
+  <section class="relative min-h-screen flex flex-col items-center justify-center px-4 py-24 grid-bg">
+
+    <!-- Ambient glow blobs -->
+    <div class="glow-blob w-[500px] h-[400px] -top-20 -left-40 opacity-50"
+         style="background:radial-gradient(circle,rgba(249,115,22,0.22) 0%,transparent 70%)"></div>
+    <div class="glow-blob w-[400px] h-[400px] bottom-20 -right-32 opacity-40"
+         style="background:radial-gradient(circle,rgba(220,38,38,0.18) 0%,transparent 70%)"></div>
+    <div class="glow-blob w-[700px] h-[350px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-15"
+         style="background:radial-gradient(ellipse,rgba(249,115,22,0.2) 0%,transparent 60%)"></div>
+
+    <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto w-full">
+
+      <!-- Profile image -->
+      <div class="relative mb-8 flex-shrink-0">
+        <div class="profile-ring w-32 h-32 rounded-full border-2 bg-zinc-900 flex items-center justify-center overflow-hidden"
+             style="border-color:rgba(249,115,22,0.4)">
+          <!--
+            TO ADD YOUR PHOTO:
+            1. Place your image file (e.g. profile.jpg) in the same folder as index.html
+            2. Replace the SVG below with:
+               <img src="profile.jpg" alt="Troy" class="w-full h-full object-cover" />
+          -->
+          <svg class="w-14 h-14 text-zinc-700" fill="none" viewBox="0 0 64 64">
+            <circle cx="32" cy="22" r="13" fill="currentColor" opacity="0.6"/>
+            <path d="M6 58c0-14.4 11.6-26 26-26s26 11.6 26 26" fill="currentColor" opacity="0.35"/>
+          </svg>
+        </div>
+        <!-- Available badge -->
+        <span class="absolute bottom-0.5 right-0.5 flex h-4 w-4">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-50"></span>
+          <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500 border-2 border-zinc-950"></span>
+        </span>
+      </div>
+
+      <!-- Status chip -->
+      <span class="section-label mb-4 inline-flex items-center gap-2">
+        <span>Available for bookings</span>
+      </span>
+
+      <!-- Name -->
+      <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black text-white mb-3 leading-none"
+          style="letter-spacing:-0.03em">
+        Troy
+      </h1>
+
+      <!-- Title -->
+      <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-5">
+        <span class="text-lg sm:text-xl text-zinc-300 font-medium">Freelance Sound Engineer</span>
+        <span class="text-orange-500 text-2xl font-thin hidden sm:inline">·</span>
+        <span class="text-lg sm:text-xl text-zinc-300 font-medium">Drummer</span>
+      </div>
+
+      <!-- Tagline -->
+      <p class="text-zinc-400 text-base sm:text-lg max-w-xl leading-relaxed mb-10">
+        Crafting immersive sonic experiences from live stages to recording studios —
+        where raw energy meets precision engineering.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-wrap gap-3 justify-center mb-10">
+        <a href="mailto:your@email.com" class="btn-primary">
+          <!-- Mail icon -->
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,12 2,6"/>
+          </svg>
+          Book a Session
+        </a>
+        <a href="#about" class="btn-ghost">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Social connect -->
+      <div class="flex flex-wrap gap-3 justify-center">
+
+        <!-- Facebook — replace YOUR_HANDLE with your actual username -->
+        <a href="https://facebook.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer" class="social-btn social-fb">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Facebook
+        </a>
+
+        <!-- Instagram — replace YOUR_HANDLE with your actual username -->
+        <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer" class="social-btn social-ig">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          Instagram
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint absolute bottom-8 left-1/2">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════ ABOUT ═══════════════════════════════════════ -->
+  <section id="about" class="py-24 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+
+        <!-- Bio (wider column) -->
+        <div class="lg:col-span-2">
+          <p class="section-label mb-4">// about</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+            Where sonic craft meets<br class="hidden sm:block" />technical precision.
+          </h2>
+          <div class="space-y-4 text-zinc-400 text-[0.95rem] leading-relaxed">
+            <p>
+              With years behind the kit and the console, I bring an artist's ear and an engineer's discipline to every project — from festival stages to intimate studio sessions.
+            </p>
+            <p>
+              Beyond audio, I build efficient server-side tools, automate data workflows, integrate APIs, and manage self-hosted infrastructure. That technical backbone means I can spec a custom monitoring system, debug a complex signal chain, and deploy a tour-ready tech rider — all without blinking.
+            </p>
+            <p>
+              Whether you need a seasoned FOH engineer, a rock-solid session drummer, or a hybrid of both — let's talk.
+            </p>
+          </div>
+
+          <!-- Quick stats -->
+          <div class="grid grid-cols-2 gap-4 mt-8">
+            <div class="card p-4 text-center">
+              <div class="text-2xl font-black text-orange-500 mb-0.5">FOH</div>
+              <div class="text-zinc-500 text-xs font-mono">Live Sound</div>
+            </div>
+            <div class="card p-4 text-center">
+              <div class="text-2xl font-black text-orange-500 mb-0.5">Studio</div>
+              <div class="text-zinc-500 text-xs font-mono">Recording</div>
+            </div>
+            <div class="card p-4 text-center">
+              <div class="text-2xl font-black text-orange-500 mb-0.5">Live</div>
+              <div class="text-zinc-500 text-xs font-mono">Touring / Gigs</div>
+            </div>
+            <div class="card p-4 text-center">
+              <div class="text-2xl font-black text-orange-500 mb-0.5">Self</div>
+              <div class="text-zinc-500 text-xs font-mono">Hosted Infra</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Focus areas (narrower column) -->
+        <div class="lg:col-span-3 space-y-4">
+          <p class="section-label mb-4">// focus areas</p>
+
+          <div class="card focus-card p-5 pl-6 flex gap-4 items-start">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                 style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2)">
+              <!-- Speaker/audio icon -->
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M19.07 4.93a10 10 0 010 14.14"/>
+                <path d="M15.54 8.46a5 5 0 010 7.07"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-zinc-100 mb-1.5">Live Sound & Studio Engineering</h3>
+              <p class="text-zinc-500 text-sm leading-relaxed">FOH and monitor mixing, live multitrack recording, signal chain design, acoustic troubleshooting, and RF coordination for high-demand live and studio environments.</p>
+            </div>
+          </div>
+
+          <div class="card focus-card p-5 pl-6 flex gap-4 items-start">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                 style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2)">
+              <!-- Drum/music icon -->
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="9" rx="10" ry="5"/>
+                <path d="M2 9v3c0 2.8 4.5 5 10 5s10-2.2 10-5V9"/>
+                <path d="M2 12v3c0 2.8 4.5 5 10 5s10-2.2 10-5v-3"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-zinc-100 mb-1.5">Performance & Session Drumming</h3>
+              <p class="text-zinc-500 text-sm leading-relaxed">Live touring, studio session recording, and drum editing across rock, metal, and alternative genres. Comfortable with click tracks, hybrid setups, and sight-reading charts on the fly.</p>
+            </div>
+          </div>
+
+          <div class="card focus-card p-5 pl-6 flex gap-4 items-start">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                 style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2)">
+              <!-- Server/terminal icon -->
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <path d="M8 21h8"/><path d="M12 17v4"/>
+                <path d="M6 8h.01M9 8h.01"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-zinc-100 mb-1.5">Server-Side Tools & Automation</h3>
+              <p class="text-zinc-500 text-sm leading-relaxed">Building reliable API integrations, data pipelines, and automation scripts. Managing self-hosted infrastructure with Docker and Linux — bringing software-level reliability to production and touring workflows.</p>
+            </div>
+          </div>
+
+          <div class="card focus-card p-5 pl-6 flex gap-4 items-start">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                 style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2)">
+              <!-- Network/signal icon -->
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0114.08 0"/>
+                <path d="M1.42 9a16 16 0 0121.16 0"/>
+                <path d="M8.53 16.11a6 6 0 016.95 0"/>
+                <circle cx="12" cy="20" r="1" fill="#f97316"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-zinc-100 mb-1.5">Network & Stage Technology</h3>
+              <p class="text-zinc-500 text-sm leading-relaxed">Dante / MADI audio networking, digital console integration, remote stage boxes, and in-ear monitor system design — bridging the gap between IT and audio production.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════ SKILLS ══════════════════════════════════════ -->
+  <section id="skills" class="py-24 px-4" style="background:linear-gradient(to bottom,rgba(24,24,27,0.4),transparent);border-top:1px solid rgba(39,39,42,0.6);border-bottom:1px solid rgba(39,39,42,0.6)">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="text-center mb-14">
+        <p class="section-label mb-3">// core skills</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white">Tools of the trade.</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+        <!-- Audio Engineering -->
+        <div class="card p-5">
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#f97316"></span>
+            <h3 class="text-sm font-semibold text-zinc-200">Audio Engineering</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">FOH Mixing</span>
+            <span class="skill-tag">Monitor Eng.</span>
+            <span class="skill-tag">Signal Chain</span>
+            <span class="skill-tag">Gain Staging</span>
+            <span class="skill-tag">RF Coord.</span>
+            <span class="skill-tag">Live Multitrack</span>
+            <span class="skill-tag">Acoustics</span>
+            <span class="skill-tag">Stem Mixing</span>
+            <span class="skill-tag">IEM Systems</span>
+          </div>
+        </div>
+
+        <!-- DAWs & Consoles -->
+        <div class="card p-5">
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#ef4444"></span>
+            <h3 class="text-sm font-semibold text-zinc-200">DAWs & Consoles</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Pro Tools</span>
+            <span class="skill-tag">Logic Pro X</span>
+            <span class="skill-tag">Ableton Live</span>
+            <span class="skill-tag">Reaper</span>
+            <span class="skill-tag">DiGiCo</span>
+            <span class="skill-tag">Avid VENUE</span>
+            <span class="skill-tag">Dante</span>
+            <span class="skill-tag">MADI</span>
+            <span class="skill-tag">Allen & Heath</span>
+          </div>
+        </div>
+
+        <!-- Drumming -->
+        <div class="card p-5">
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#f59e0b"></span>
+            <h3 class="text-sm font-semibold text-zinc-200">Drumming</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Live Touring</span>
+            <span class="skill-tag">Studio Sessions</span>
+            <span class="skill-tag">Rock / Metal</span>
+            <span class="skill-tag">Click Track</span>
+            <span class="skill-tag">Sight Reading</span>
+            <span class="skill-tag">Groove & Feel</span>
+            <span class="skill-tag">Hybrid Kit</span>
+            <span class="skill-tag">Drum Editing</span>
+          </div>
+        </div>
+
+        <!-- Tech & Infra -->
+        <div class="card p-5">
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#71717a"></span>
+            <h3 class="text-sm font-semibold text-zinc-200">Tech & Infra</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-tag">Linux Admin</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">API Integration</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Data Pipelines</span>
+            <span class="skill-tag">Self-Hosting</span>
+            <span class="skill-tag">Bash / Shell</span>
+            <span class="skill-tag">Nginx</span>
+            <span class="skill-tag">Automation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════ FOOTER ══════════════════════════════════════ -->
+  <footer class="py-20 px-4 text-center">
+    <div class="max-w-xl mx-auto">
+
+      <p class="section-label mb-4">// get in touch</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-3">Let's make something loud.</h2>
+      <p class="text-zinc-500 mb-8 text-sm sm:text-base">
+        Open to live shows, touring, studio sessions, and technical consulting engagements.
+      </p>
+
+      <a href="mailto:your@email.com" class="btn-primary mb-12">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,12 2,6"/>
+        </svg>
+        Send a Message
+      </a>
+
+      <div class="mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
+           style="border-top:1px solid rgba(39,39,42,0.6)">
+        <span class="text-zinc-600 text-xs" style="font-family:'JetBrains Mono',monospace">
+          © 2025 Troy. All rights reserved.
+        </span>
+        <div class="flex gap-5">
+          <a href="https://facebook.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer"
+             class="text-zinc-600 hover:text-zinc-400 text-sm transition-colors">Facebook</a>
+          <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer"
+             class="text-zinc-600 hover:text-zinc-400 text-sm transition-colors">Instagram</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
